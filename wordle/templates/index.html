@@ -2,12 +2,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Digimon Wordle</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
   <script src="{% static 'js/script.js' %}" defer></script>
 </head>
 <body>
-  <h1>Digimon Wordle</h1>
+
+  <header class="bg-danger text-white text-center p-4">
+    <h1>Digimon Wordle</h1>
+  </header>
+
+  <div class="centered-container">
+    <div class="form-wrapper">
+      <form class="d-flex align-items-center" role="search">
+        <input class="form-control me-2" type="search" placeholder="Enter your guess" aria-label="Search">
+        <button class="btn btn-danger" type="submit">Submit</button>
+      </form>
+    </div>
+  
+    <div class="info-box mt-4">
+      Guesses
+
+      <table class="table table-bordered table-striped" style="width: 100%; max-width: 600px; margin: 20px auto;">
+        <thead class="table-dark">
+          <tr>
+            <th>Digimon</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Attribute</th>
+            <th>Attribute</th>
+            <th>Attribute</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gabumon</td>
+            <td>Dinosaur</td>
+            <td>Data</td>
+            <td>Data</td>
+            <td>Data</td>
+            <td>Data</td>
+          </tr>
+          <tr>
+            <td>Patamon</td>
+            <td>Mammal</td>
+            <td>Vaccine</td>
+            <td>Vaccine</td>
+            <td>Vaccine</td>
+            <td>Vaccine</td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+
+
+  </div>
+
+
+
+
+ 
 </body>
 </html>
