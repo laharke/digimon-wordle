@@ -39,13 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const clicked = e.target;
     if (clicked.classList.contains('clickable-digimon')) {
         const digimonId = clicked.dataset.id;
-        fetchDigimonDetails(digimonId);
+        //fetchDigimonDetails(digimonId);
+        checkGuess(digimonId)
+
+
+
+
     }
   });
 });
 
 function fetchDigimonDetails(id) {
-  fetch(`https://digi-api.com/api/v1/digimon/${id}`)  // replace with your actual API endpoint
+  fetch(`https://digi-api.com/api/v1/digimon/${id}`) 
     .then(res => res.json())
     .then(data => {
       console.log("Digimon API response:", data);
@@ -60,4 +65,13 @@ function fetchDigimonDetails(id) {
 
       console.error("Error fetching Digimon data:", err);
     });
+}
+
+
+function checkGuess(digimonId) {
+  fetch(`/check_guess/?digimon_id=${encodeURIComponent(digimonId)}`)
+  .then(res => res.json())
+  .then(data => {
+      console.log("Respuesta:", data);
+  });
 }
