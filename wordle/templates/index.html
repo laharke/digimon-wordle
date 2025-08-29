@@ -12,31 +12,24 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
   <script src="{% static 'js/script.js' %}" defer></script>
 </head>
+
+<header class="text-center p-2" style="background: transparent;">
+  <img src="{% static 'imgs/logo.png' %}" alt="Digimon Wordle Logo" style="height: 100px;">
+</header>
+
 <body>
 
-  <header class="bg-danger text-white text-center p-4">
-    <h1>Digimon Wordle</h1>
-  </header>
 
-  <div class="centered-container">
-    <div class="form-wrapper">
-      <form class="d-flex align-items-center" role="search">
-        <input class="form-control me-2" type="search" placeholder="Enter your guess" aria-label="Search">
-        <button class="btn btn-danger" type="submit">Submit</button>
-      </form>
-      <!-- Input and list -->
-      <input type="text" id="digimon-search" class="form-control" placeholder="Search Digimon">
-      <ul id="results" class="list-group mt-3"></ul>
 
-      <!-- Info display  NOT USING PERO ES APRA MOSTRAR ELIFNO SI ANDUVIERA LA APi-->
-      <pre id="digimon-info" class="mt-4 bg-light p-3 border rounded" style="white-space: pre-wrap;"></pre>
-
-    </div>
+  <!-- Input and list -->
+  <div class="form-wrapper search-container container" style="margin-top: 100px;">
+    <!-- Input and list -->
+    <input type="text" id="digimon-search" class="form-control me-2" style="width: 100%;" placeholder="Search Digimon">
+    <ul id="results" class="list-group mt-3"></ul>
+  </div>
   
-    <div class="info-box mt-4">
-      Guesses
-
-      <table class="table table-bordered table-striped" style="width: 100%; max-width: 600px; margin: 20px auto;">
+  <div class="centered-container">
+      <table class="table table-bordered table-striped" style="width: 100%; max-width: 600px; margin: 20px auto; margin-top: 0px  !important;">
         <thead class="table-dark">
           <tr>
             <th>Digimon</th>
@@ -61,15 +54,9 @@
         </tbody>
       </table>
       
-    </div>
   </div>
 
 
-  </div>
-
-
-
-
- 
 </body>
+
 </html>
