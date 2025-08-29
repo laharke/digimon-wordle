@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Depecrated!!!!
 function fetchDigimonDetails(id) {
   fetch(`https://digi-api.com/api/v1/digimon/${id}`) 
     .then(res => res.json())
@@ -72,6 +73,70 @@ function checkGuess(digimonId) {
   fetch(`/check_guess/?digimon_id=${encodeURIComponent(digimonId)}`)
   .then(res => res.json())
   .then(data => {
-      console.log("Respuesta:", data);
-  });
+      //console.log("Respuesta:", data);
+      add_guess_row(data);
+    });
+}
+
+//Hay que hacer una funcion para checkGuess que agrege el ROW de la GUESS y dibuje los colorcitos!!!
+// Va a recibir la data de checkGuess, es decir, el array de comrpacion y el array del digimon que fue guessed.
+function add_guess_row(data){
+      // data es un objeto con la info del Digimon + flags correct/incorrect
+    // Ejemplo:
+    // {
+    //   img: "https://digi-api.com/images/digimon/w/Agumon.png",
+    //   name: "Agumon",
+    //   level: { value: "Rookie/Child", correct: true },
+    //   attribute: { value: "Vaccine", correct: false },
+    //   type: { value: "Reptile", correct: true },
+    //   is_main: { value: "Yes", correct: false },
+    //   is_evil: { value: "No", correct: true },
+    //   year: { value: "1999", correct: false }
+    // }
+
+    info = data['info']
+    console.log(info)
+
+
+    const tbody = document.getElementById("guesses-body");
+    const tr = document.createElement("tr");
+
+    /* Adentro del td tien que star esto
+    <td><img style="width: 150px;" src="https://digi-api.com/images/digimon/w/Gabumon.png" alt="Dinosaur" /> <br> Gabumon</td>
+    <td>Rookie/Child</td>
+    <td>Data</td>
+    <td>Reptile</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>1997</td>
+    */
+
+
+    // Columna 1: Imagen + nombre
+    const tdImg = document.createElement("td");
+    tdImg.innerHTML = `<img style="width: 150px;" src="${info.img}" alt="${info.name}" /> <br>${info.name}`;
+    tr.appendChild(tdImg);
+    
+
+
+
+ 
+
+    // Crear y agregar columnas dinámicas
+    tr.appendChild(createTd(info.level));
+    tr.appendChild(createTd(info.attribute));
+    tr.appendChild(createTd(info.type));
+    tr.appendChild(createTd(info.priorEvolution));
+    tr.appendChild(createTd(info.nextEvolution));
+    tr.appendChild(createTd(info.release_date));
+
+    tbody.appendChild(tr);
+}
+
+// Funcion que crea un TD y le pone el backgroudn tmb
+function createTd(info) {
+  const td = document.createElement("td");
+  td.textContent = info.value;
+  td.classList.add(info.correct ? "correct" : "incorrect");
+  return td;
 }

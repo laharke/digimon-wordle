@@ -3,6 +3,8 @@ import os
 import json
 import requests
 from django.http import JsonResponse
+from . import utils
+
 
 
 
@@ -11,13 +13,7 @@ from django.http import JsonResponse
 with open('wordle/static/data/dailyDigimon.json') as f:
     DIGIMON_DEL_DIA = json.load(f)
 
-    evolutionIDS = []
-
-for evolution in DIGIMON_DEL_DIA['priorEvolutions']: 
-    evolutionIDS.append(evolution['id'])
-
-DIGIMON_DEL_DIA['priorEvolutionsIds'] = evolutionIDS
-
+DIGIMON_DEL_DIA = utils.filter_api_info(DIGIMON_DEL_DIA)
 
 
 # Create your views here.
@@ -26,16 +22,11 @@ def index(request):
 
     with open(os.path.join(BASE_DIR, 'wordle','static' ,'data', 'digimons.json')) as f:
         digimons = json.load(f)
-    print(DIGIMON_DEL_DIA)
 
     print(DIGIMON_DEL_DIA['id'])
     print(DIGIMON_DEL_DIA['name'])
-    print(DIGIMON_DEL_DIA['priorEvolutionsIds'])
 
 
-    #digimons[id]
-    #digimons[image]
-    #print(digimons[0])
 
     # Tal vez puedo agarrar toda la info y armamre un config file , la parseo y creo un json que sea
     # {id, name, foto} y con esto armo el dropdown menu.
@@ -67,27 +58,31 @@ def check_guess(request):
         return JsonResponse({"error": "Datos vacíos"}, status=404)
     
 
-    #Proceso ERRORES
-    print (data)
-    digimon_info = data[0]  # La API devuelve una lista
+    guessed_digimon = utils.filter_api_info(data)
+
+    
+    # Ahora puedo comprar DIGIMON_DEL_DIA con el guessed_digimon y enviar la response
+    # En la response no necesito enviar la info del digimon 
+    # Igual es muy sencillo, envio dos arrays, una con la info del digimon y otra con los resultados
+    
+    # Si los ids coinciden WIN. Pero esto LATer.
+    # La comrpacion de "level": true/false    "attribute": true/false   "type": true/false    "release_date": mayor/menor/igual      
+    # "priorEvolutionsIds": true/false,   "nextEvolutionsIds": true/false
 
 
-    # Extraer info relevante
-    guess_data = {
-        "name": digimon_info["name"],
-        "type": digimon_info["type"],
-        "attribute": digimon_info["attribute"],
-        "level": digimon_info["level"]
-    }
+    # Defini una funcoin que le des dos DIGMONS y la COMPARE  y ya
+    comparison = utils.compare_two_digimons(DIGIMON_DEL_DIA, guessed_digimon)
 
-    # Comparar con el Digimon del día
-    comparison = {
-        "type": guess_data["type"] == DIGIMON_DEL_DIA["type"],
-        "attribute": guess_data["attribute"] == DIGIMON_DEL_DIA["attribute"],
-        "level": guess_data["level"] == DIGIMON_DEL_DIA["level"]
-    }
+    info = utils.compare_digimons(DIGIMON_DEL_DIA, guessed_digimon)
+
+    print(info)
+
+    
+    # El return va a ser como un json con al data y va a tener por ejemplo 
+    # type: inccorect, 
+    #level: correct
+    # no se si encseiot al DATA del digmo qneu adinvo en eflront me chupa un HUEVO tbh
 
     return JsonResponse({
-        "guess": guess_data,
-        "comparison": comparison
+        "info": info
     })
